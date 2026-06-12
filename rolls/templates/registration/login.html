@@ -1,20 +1,32 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
     <meta charset="UTF-8">
-    <title>Вход</title>
+    <title>Добавить операцию</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="icon" type="image/png" href="{% static 'img/favicon-96x96.png' %}" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml"  href="{% static 'img/favicon.svg' %}" />
+    <link rel="shortcut icon"  href="{% static 'img/favicon.ico' %}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}" />
+    <meta name="apple-mobile-web-app-title" content="rum26.ru" />
+    <link rel="manifest" href="{% static 'img/site.webmanifest' %}">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
 </head>
 <body>
 
 <h1>Вход в систему</h1>
 
-<form method="post">
+<form method="post" class="dark-formal-table">
 
     {% csrf_token %}
 
     {{ form.as_p }}
 
-    <button type="submit">
+    <button type="submit" class="btn">
         Войти
     </button>
 
