@@ -196,3 +196,5 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+params_dev.py
+params_prod.py
