@@ -20,13 +20,13 @@
 
 <h1>Вход в систему</h1>
 
-<form method="post" class="dark-formal-table">
+<form method="post">
 
     {% csrf_token %}
 
     {{ form.as_p }}
 
-    <button type="submit" class="btn">
+    <button type="submit">
         Войти
     </button>
 
