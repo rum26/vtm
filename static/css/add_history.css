@@ -1,5 +1,7 @@
 body {
-    background-color: #1a1e24;
+  background-color: #1a1e24;
+  max-width: 600px;             /* высота равна высоте экрана */
+  margin: 0;                    /* убрать отступы */
 }
 
 /* Контейнер для горизонтальной прокрутки на узких экранах */
@@ -13,7 +15,7 @@ body {
     width: 100%;               /* можно заменить на auto, если нужна ширина по содержимому */
     border-collapse: collapse;
     font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
-    font-size: 0.9rem;
+    font-size: 0.7rem;
     background-color: #1a1e24;
     color: #e9ecef;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
@@ -66,7 +68,7 @@ body {
 /* Адаптивность: при очень маленьких экранах шрифт чуть меньше */
 @media (max-width: 640px) {
     .dark-formal-table {
-        font-size: 0.8rem;
+        font-size: 0.7rem;
     }
     .dark-formal-table th,
     .dark-formal-table td {
@@ -81,7 +83,7 @@ body {
     color: #ecf0f1;
     border: none;                   /* убираем рамку у кнопки */
     padding: 5px 5px;
-    font-size: 0.9rem;
+    font-size: 0.7rem;
     font-family: inherit;
     text-decoration: none;          /* убираем подчёркивание у ссылки */
     cursor: pointer;
@@ -118,7 +120,7 @@ select {
     padding: 5px 5px;
     border-radius: 4px;
     font-family: inherit;
-    font-size: 0.9rem;
+    font-size: 0.7rem;
     width: 100%;                 /* растягивается по ширине ячейки */
     box-sizing: border-box;
 }
