@@ -138,7 +138,7 @@ select:focus {
 /* Блок HD – карточка */
 .hd-card {
     border-radius: 5px;
-    padding: 1rem 1.5rem;
+    padding: 0.5rem 0.5rem;
     border: 1px solid #3a414d;;
     transition: box-shadow 0.2s ease;
 }
