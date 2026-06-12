@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Список валов</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="icon" type="image/png" href="{% static 'img/favicon-96x96.png' %}" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml"  href="{% static 'img/favicon.svg' %}" />
+    <link rel="shortcut icon"  href="{% static 'img/favicon.ico' %}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}" />
+    <meta name="apple-mobile-web-app-title" content="rum26.ru" />
+    <link rel="manifest" href="{% static 'img/site.webmanifest' %}">
+    <link rel="stylesheet" href="{% static 'css/roll_list.css' %}">
+</head>
+<body>
+
+<div class="hd-card">
+    <div class="hd-row">
+        <div class="hd-group">
+            <select id="filter-stand">
+                <option value="">Клеть</option>
+            </select>
+        </div>
+        <div class="hd-group">
+            <select id="filter-profile">
+                <option value="">Профиль</option>
+            </select>
+        </div>
+        <div class="hd-group">
+             <button id="clear-filters" class="btn">Сбросить</button>
+        </div>
+
+    </div>
+</div>
+
+<br>
+
+<div class="table-wrapper">
+    <table class="dark-formal-table">
+        <thead>
+            <tr>
+                <th>Номер</th>
+                <th>Клеть</th>
+                <th>Профиль</th>
+                <th>Диаметр</th>
+                <th>Статус</th>
+                <th>Ответственный</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for roll in rolls %}
+            <tr class="clickable-row" data-url="{% url 'roll_detail' roll.id %}">
+                <td>{{ roll.number }}</td>
+                <td>{{ roll.stand_number }}</td>
+                <td>{{ roll.profile }}</td>
+                <td>{{ roll.current_diameter }}</td>
+                <td>{{ roll.get_current_status_display }}</td>
+                <td>{{ roll.employee }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+// Функция сбора уникальных значений из столбцов таблицы
+function collectUniqueValues(columnIndex) {
+    const rows = document.querySelectorAll('.dark-formal-table tbody tr');
+    const values = new Set();
+    rows.forEach(row => {
+        const cell = row.cells[columnIndex];
+        if (cell) {
+            const text = cell.textContent.trim();
+            if (text) values.add(text);
+        }
+    });
+    return Array.from(values).sort();
+}
+
+// Заполнение select уникальными значениями
+function populateSelect(selectId, columnIndex) {
+    const select = document.getElementById(selectId);
+    if (!select) return;
+    const uniqueValues = collectUniqueValues(columnIndex);
+    // Сохраняем первый option (Все)
+    const allOption = select.options[0];
+    select.innerHTML = '';
+    select.appendChild(allOption);
+    uniqueValues.forEach(value => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value;
+        select.appendChild(option);
+    });
+}
+
+// Фильтрация строк таблицы
+function filterTable() {
+    const filterStand = document.getElementById('filter-stand').value;
+    const filterProfile = document.getElementById('filter-profile').value;
+    const rows = document.querySelectorAll('.dark-formal-table tbody tr');
+    rows.forEach(row => {
+        const standCell = row.cells[1]; // индекс столбца "Клеть" (0-based)
+        const profileCell = row.cells[2]; // индекс столбца "Профиль"
+        const standValue = standCell ? standCell.textContent.trim() : '';
+        const profileValue = profileCell ? profileCell.textContent.trim() : '';
+        let show = true;
+        if (filterStand && standValue !== filterStand) show = false;
+        if (filterProfile && profileValue !== filterProfile) show = false;
+        row.style.display = show ? '' : 'none';
+    });
+}
+
+// Сброс фильтров
+function resetFilters() {
+    document.getElementById('filter-stand').value = '';
+    document.getElementById('filter-profile').value = '';
+    filterTable();
+}
+
+// Инициализация после загрузки DOM
+document.addEventListener('DOMContentLoaded', function() {
+    // Заполняем selects (столбцы: 1 - Клеть, 2 - Профиль)
+    populateSelect('filter-stand', 1);
+    populateSelect('filter-profile', 2);
+
+    // Вешаем обработчики
+    document.getElementById('filter-stand').addEventListener('change', filterTable);
+    document.getElementById('filter-profile').addEventListener('change', filterTable);
+    document.getElementById('clear-filters').addEventListener('click', resetFilters);
+
+    // Обработчик клика по строкам (остаётся без изменений)
+    document.querySelectorAll('.clickable-row').forEach(row => {
+        row.addEventListener('click', function() {
+            const url = this.dataset.url;
+            if (url) window.location.href = url;
+        });
+    });
+});
+</script>
+
+</body>
+</html>

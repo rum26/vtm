@@ -1,0 +1,142 @@
+body {
+    background-color: #1a1e24;
+}
+
+/* Контейнер для горизонтальной прокрутки на узких экранах */
+.table-wrapper {
+    overflow-x: auto;
+    border-radius: 8px;
+}
+
+/* Основная таблица */
+.dark-formal-table {
+    width: 100%;               /* можно заменить на auto, если нужна ширина по содержимому */
+    border-collapse: collapse;
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+    font-size: 0.9rem;
+    background-color: #1a1e24;
+    color: #e9ecef;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Ячейки и заголовки — общие границы и отступы */
+.dark-formal-table th,
+.dark-formal-table td {
+    border: 1px solid #2c323c;
+    padding: 5px 5px;
+    vertical-align: top;
+}
+
+/* Заголовки */
+.dark-formal-table th {
+    background-color: #0f1117;
+    color: #ffffff;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 0.3px;
+    border-bottom-width: 2px;
+    border-bottom-color: #3a414d;
+}
+
+/* Чётные строки — слегка светлее для читаемости */
+.dark-formal-table tr:nth-child(even) {
+    background-color: #20252c;
+}
+
+/* Строка при наведении */
+.dark-formal-table tr:hover {
+    background-color: #2a313a;
+    transition: background-color 0.2s ease;
+}
+
+/* Колонка с диаметром: стрелки и моноширинный акцент */
+.dark-formal-table td:nth-child(4) {
+    font-family: 'JetBrains Mono', 'SF Mono', monospace;
+    white-space: nowrap;
+}
+
+/* Сообщение «История пока отсутствует» */
+.dark-formal-table td[colspan] {
+    text-align: center;
+    font-style: italic;
+    color: #9aa4b5;
+    padding: 5px 5px;
+}
+
+/* Адаптивность: при очень маленьких экранах шрифт чуть меньше */
+@media (max-width: 640px) {
+    .dark-formal-table {
+        font-size: 0.8rem;
+    }
+    .dark-formal-table th,
+    .dark-formal-table td {
+        padding: 5px 5px;
+    }
+}
+
+
+.btn {
+    display: inline-block;          /* чтобы ссылка вела себя как блочно-строчный элемент */
+    background-color: #2c3e50;      /* тёмный фон под вашу тему */
+    color: #ecf0f1;
+    border: none;                   /* убираем рамку у кнопки */
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    font-family: inherit;
+    text-decoration: none;          /* убираем подчёркивание у ссылки */
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+    text-align: center;
+}
+
+/* Состояние при наведении */
+.btn:hover {
+    background-color: #1e2b38;
+    color: #ffffff;
+}
+
+/* Состояние при фокусе (для клавиатуры) */
+.btn:focus {
+    outline: 2px solid #6c8ebf;
+    outline-offset: 2px;
+}
+
+/* Активное состояние (когда кликнули) */
+.btn:active {
+    background-color: #1a252f;
+    transform: translateY(1px);
+}
+
+
+
+/* Блок HD – карточка */
+.hd-card {
+    border-radius: 5px;
+    padding: 1rem 1.5rem;
+    border: 1px solid #3a414d;;
+    transition: box-shadow 0.2s ease;
+}
+
+.hd-title {
+    font-size: 0.7rem;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.hd-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+.hd-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    min-width: 100px;
+}

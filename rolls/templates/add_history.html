@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить операцию</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="icon" type="image/png" href="{% static 'img/favicon-96x96.png' %}" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml"  href="{% static 'img/favicon.svg' %}" />
+    <link rel="shortcut icon"  href="{% static 'img/favicon.ico' %}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}" />
+    <meta name="apple-mobile-web-app-title" content="rum26.ru" />
+    <link rel="manifest" href="{% static 'img/site.webmanifest' %}">
+    <link rel="stylesheet" href="{% static 'css/add_history.css' %}">
+</head>
+<body>
+
+<table class="dark-formal-table">
+    <tr>
+        <th>
+            Клеть
+        </th>
+        <td>
+            {{ roll.stand_number }}
+        </td>
+
+        <th>
+            Профиль
+        </th>
+        <td>
+            {{ roll.profile }}
+        </td>
+
+        <th>
+            Диаметр
+        </th>
+        <td>
+            {{ roll.current_diameter }}
+        </td>
+
+        <th>
+           Статус
+        </th>
+        <td>
+            {{ roll.get_current_status_display }}
+        </td>
+    </tr>
+
+</table>
+
+<br>
+
+<table class="dark-formal-table">
+
+</table>
+
+<br>
+
+<form method="post">
+    {% csrf_token %}
+    <table class="dark-formal-table">
+        <tbody>
+            {% for field in form %}
+                <tr>
+                    <th>{{ field.label_tag }}</th>
+                    <td>
+                        {{ field }}
+                        {% if field.help_text %}
+                            <small class="form-help">{{ field.help_text }}</small>
+                        {% endif %}
+                        {% for error in field.errors %}
+                            <div class="form-error">{{ error }}</div>
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tr>
+            <th>
+                <a class="btn" href="{% url 'roll_detail' roll.id %}">Назад</a>
+            </th>
+            <th>
+                <button type="submit" class="btn">Сохранить</button>
+            </th>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

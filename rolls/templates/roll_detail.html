@@ -1,0 +1,120 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Вал {{ roll.number }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="icon" type="image/png" href="{% static 'img/favicon-96x96.png' %}" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml"  href="{% static 'img/favicon.svg' %}" />
+    <link rel="shortcut icon"  href="{% static 'img/favicon.ico' %}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}" />
+    <meta name="apple-mobile-web-app-title" content="rum26.ru" />
+    <link rel="manifest" href="{% static 'img/site.webmanifest' %}">
+    <link rel="stylesheet" href="{% static 'css/roll_detail.css' %}">
+</head>
+<body>
+
+
+<table class="dark-formal-table">
+    <tr>
+        <th>
+            Клеть
+        </th>
+        <td>
+            {{ roll.stand_number }}
+        </td>
+
+        <th>
+            Профиль
+        </th>
+        <td>
+            {{ roll.profile }}
+        </td>
+
+        <th>
+            Диаметр
+        </th>
+        <td>
+            {{ roll.current_diameter }}
+        </td>
+
+        <th>
+           Статус
+        </th>
+        <td>
+            {{ roll.get_current_status_display }}
+        </td>
+    </tr>
+
+</table>
+
+<br>
+
+<div class="table-wrapper">
+<table class="dark-formal-table">
+    <tr>
+        <td colspan="5">
+        История операций
+        </td>
+    </tr>
+<tr>
+    <th>Дата</th>
+    <th>Ответственный</th>
+    <th>Статус</th>
+    <th>Диаметр</th>
+    <th>Комментарий</th>
+</tr>
+
+{% for item in history %}
+
+<tr>
+    <td>
+        {{ item.operation_date|date:"d.m.Y H:i" }}
+    </td>
+    <td>
+        {{ item.employee }}
+    </td>
+    <td>
+        {{ item.get_status_display }}
+    </td>
+    <td>
+        {{ item.old_diameter }}
+        →
+        {{ item.new_diameter }}
+    </td>
+    <td>
+        {{ item.comment }}
+    </td>
+</tr>
+
+{% empty %}
+
+<tr>
+    <td colspan="5">
+        История пока отсутствует
+    </td>
+</tr>
+
+{% endfor %}
+
+</table>
+</div>
+
+<br>
+
+<table class="dark-formal-table">
+    <tr>
+        <th>
+            <a href="{% url 'roll_list' %}" class="btn">Назад</a>
+        </th>
+        <th>
+            <a href="{% url 'add_history' roll.id %}" class="btn">Добавить</a>
+        </th>
+    </tr>
+</table>
+
+<br>
+
+</body>
+</html>

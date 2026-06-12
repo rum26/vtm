@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="icon" type="image/png" href="/img/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
+  <link rel="shortcut icon" href="/img/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="rum26.ru" />
+  <link rel="manifest" href="/img/site.webmanifest" />
+  <link rel="stylesheet" href="style.css">
+  <title>rum26.ru</title>
+</head>
+
+<body>
+
+
+
+<div class="dashboard">
+
+    <div class="top-glow"></div>
+
+    <div class="header">
+
+        <div class="city">
+            Москва
+        </div>
+
+        <div class="time" id="time">
+            00:00<span class="seconds">:00</span>
+        </div>
+
+        <div class="date" id="date">
+            Загрузка...
+        </div>
+
+    </div>
+
+    <div class="section">
+
+        <div class="section-title">
+            🌐 Состояние сервисов
+        </div>
+
+        <div id="servers">
+            Загрузка...
+        </div>
+
+    </div>
+
+    <div >
+
+        <button onclick="checkAll()">
+            Проверить соединение
+        </button>
+
+        <div  id="myinfo">
+            Загрузка информации...
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+

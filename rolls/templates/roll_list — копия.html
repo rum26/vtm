@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Список валов</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="icon" type="image/png" href="{% static 'img/favicon-96x96.png' %}" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml"  href="{% static 'img/favicon.svg' %}" />
+    <link rel="shortcut icon"  href="{% static 'img/favicon.ico' %}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}" />
+    <meta name="apple-mobile-web-app-title" content="rum26.ru" />
+    <link rel="manifest" href="{% static 'img/site.webmanifest' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<div class="table-responsive">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Номер</th>
+                <th>Комплект</th>
+                <th>Клеть</th>
+                <th>Профиль</th>
+                <th>Диаметр</th>
+                <th>Статус</th>
+                <th>Ответственный</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for roll in rolls %}
+            <tr class="clickable-row" data-url="{% url 'roll_detail' roll.id %}">
+                <td>{{ roll.number }}</td>
+                <td>{{ roll.set_number }}</td>
+                <td>{{ roll.stand_number }}</td>
+                <td>{{ roll.profile }}</td>
+                <td>{{ roll.current_diameter }}</td>
+                <td>{{ roll.get_current_status_display }}</td>
+                <td>{{ roll.employee }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    document.querySelectorAll('.clickable-row').forEach(row => {
+        row.addEventListener('click', function() {
+            const url = this.dataset.url;
+            if (url) window.location.href = url;
+        });
+    });
+</script>
+
+</body>
+</html>
