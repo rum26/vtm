@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, redirect, url_for, session
 from datetime import datetime
 import json
+import os
 
 
 with open('plates.json', 'r', encoding='utf-8') as file:
@@ -13,8 +14,8 @@ def save_data():
 
 
 app = Flask(__name__)
-
-app.secret_key = "секретный-ключ"
+print(os.environ["SECRET_KEY"])
+app.secret_key = os.environ["SECRET_KEY"]
 
 
 @app.route("/")
