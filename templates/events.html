@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+  <meta name="theme-color" content="#04060c">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="example">
+  <link rel="icon" type="image/png" sizes="96x96" href="{{ url_for('static', filename='96x96.png') }}">
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='180x180.png') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+  <title>Events</title>
+</head>
+<body>
+<div id="content" class="wrap">
+<main class="shell">
+<header class="topbar">
+<div class="brand-text">
+  {% if username %}
+    <strong>Оператор: {{ username }}</strong>
+    <a class="auth-btn" href="/logout">ВЫЙТИ</a>
+  {% else %}
+    <a class="auth-btn" href="/login">ВОЙТИ</a>
+  {% endif %}
+</div>
+</header>
+  {% if username %}
+  <section class="hero">
+    <article id="console" class="panel">
+      <form action="/send" method="POST">
+        <select name="action">
+          {% for action in ["Переточка", "Обойма", "Добавить"] %}
+          <option value="{{ action }}">{{ action }}</option>
+          {% endfor %}
+        </select>
+        <select name="roll">
+          {% for roll in rolls %}
+          <option value="{{ roll }}">{{ roll }}</option>
+          {% endfor %}
+        </select>
+        <select name="plate">
+          {% for plate in plates %}
+          <option value="{{ plate }}">{{ plate }}</option>
+          {% endfor %}
+        </select>
+        <button type="submit">OK</button>
+      </form>
+    </article>
+  </section>
+  {% endif %}
+
+  <section id class="hero">
+    <article id="console" class="panel">
+        <table>
+          <thead>
+          <tr>
+            {% for h in headers %}
+            <th>{{ h }}</th>
+            {% endfor %}
+          </tr>
+          </thead>
+          <tbody>
+          {% for row in events %}
+          <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            <td>{{ row[3] }}</td>
+            <td>{{ row[4] }}</td>
+            <td class="remainder">{{ row[5] }}</td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+
+    </article>
+  </section>
+</main>
+</div>
+
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register(
+    "{{ url_for('static', filename='sw.js') }}",
+    { scope: '/' }
+  );
+}
+</script>
+</body>
+</html>
