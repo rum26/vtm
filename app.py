@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, redirect, url_for, session
-from datetime import datetime
+from datetime import datetime, timedelta
 import json
 import os
 
@@ -16,6 +16,8 @@ def save_data():
 app = Flask(__name__)
 print(os.environ["SECRET_KEY"])
 app.secret_key = os.environ["SECRET_KEY"]
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=30)
+app.config['SESSION_REFRESH_EACH_REQUEST'] = True
 
 
 @app.route("/")
@@ -90,10 +92,9 @@ def login():
 
         if Data["auth"].get(username) == password:
             session["username"] = username
+            session.permanent = True
             return redirect(url_for("index"))
-
         return render_template("login.html")
-
     return render_template("login.html")
 
 
