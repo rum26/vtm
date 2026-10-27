@@ -53,7 +53,22 @@
   </section>
   {% endif %}
 
-  <section id class="hero">
+  <section class="hero">
+    <article id="console" class="panel">
+        <table>
+          <tbody>
+          {% for row in storage %}
+          <tr>
+            <td>{{ row }}</td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+    </article>
+  </section>
+
+
+  <section class="hero">
     <article id="console" class="panel">
         <table>
           <thead>
