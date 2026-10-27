@@ -25,7 +25,8 @@ def index():
     events = reversed(Data["events"])
     storage = []
     for i in Data["storage"]:
-        storage.append(f'⌀{i} — {Data["storage"][i]} шт.')
+
+        storage.append(f'⌀{int(i):02} — {Data["storage"][i]} шт.')
 
     headers = ["Дата", "Время", "Оператор", "Событие", "⌀", "Ост."]
 
