@@ -5,7 +5,7 @@ import json
 import os
 
 
-VER = 'v1.1'
+VER = 'v1.2'
 app = Flask(__name__)
 app.secret_key = os.environ["SECRET_KEY"]
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=30)
@@ -112,7 +112,7 @@ def check_busy():
             return {"status": 1}
         # Если свободно вернуть статус 2 и занять место
         busy = True
-        return {"status": 2}
+        return {"status": 200}
 
 
 @app.route("/flag_busy")
@@ -121,4 +121,4 @@ def set_busy():
     global busy
     with trade_lock:
         busy = False
-        return {"status": "ok"}
+        return {"status": 200}
