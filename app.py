@@ -5,7 +5,7 @@ import json
 import os
 
 
-VER = 'v1.3'
+VER = 'v1.4'
 app = Flask(__name__)
 app.secret_key = os.environ["SECRET_KEY"]
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=30)
@@ -130,9 +130,17 @@ def receive_json():
     if not data:
         return jsonify({"error": "Invalid or missing JSON"}), 400
 
-    filename = data["filename"]
-    live = data["live"]
-    vds = data["vds"]
+    live = data.get("live")
+    if live is None:
+        return jsonify({"error": "Invalid or missing JSON"}), 400
+
+    filename = data.get("filename")
+    if filename is None:
+        return jsonify({"error": "Invalid or missing JSON"}), 400
+
+    vds = data.get("vds")
+    if vds is None:
+        return jsonify({"error": "Invalid or missing JSON"}), 400
 
     print(f'Пришло сообщение от {vds}')
 
