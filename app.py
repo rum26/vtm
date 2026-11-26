@@ -1,11 +1,11 @@
-from flask import Flask, request, redirect, session, render_template, url_for
+from flask import Flask, request, redirect, session, render_template, url_for, jsonify
 from datetime import datetime, timedelta
 from threading import Lock
 import json
 import os
 
 
-VER = 'v1.2'
+VER = 'v1.3'
 app = Flask(__name__)
 app.secret_key = os.environ["SECRET_KEY"]
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=30)
@@ -122,3 +122,29 @@ def set_busy():
     with trade_lock:
         busy = False
         return {"status": 200}
+
+
+@app.route("/live", methods=["POST"])
+def receive_json():
+    data = request.get_json(silent=True)
+    if not data:
+        return jsonify({"error": "Invalid or missing JSON"}), 400
+
+    filename = data["filename"]
+    live = data["live"]
+    vds = data["vds"]
+
+    print(f'Пришло сообщение от {vds}')
+
+    for event_id in live:
+        print(f'ADD: {event_id}')
+
+    with open(f'live/{vds}-{filename}.json', 'w', encoding='utf-8') as f:
+        json.dump(live, f, ensure_ascii=False, indent=2)
+
+    # Освободить место
+    global busy
+    with trade_lock:
+        busy = False
+
+    return jsonify({"received": "ok"}), 200
