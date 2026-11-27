@@ -1,14 +1,17 @@
 from flask import Flask, request, redirect, session, render_template, url_for, jsonify
 from datetime import datetime, timedelta
+from threading import Lock
 import json
 import os
 
 
-VER = 'v1.5'
+VER = 'v1.6'
 app = Flask(__name__)
 app.secret_key = os.environ["SECRET_KEY"]
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=30)
 app.config['SESSION_REFRESH_EACH_REQUEST'] = True
+trade_lock = Lock()
+busy = False
 
 
 with open('plates.json', 'r', encoding='utf-8') as file:
@@ -96,4 +99,57 @@ def send_plate():
 
     save_data()
     return redirect(url_for("index"))
-    
+
+
+@app.route("/wait_busy")
+def check_busy():
+    # Проверка очереди
+    global busy
+
+    with trade_lock:
+        # Если занято вернуть статус 1
+        if busy:
+            return {"status": 1}
+        # Если свободно вернуть статус 2 и занять место
+        busy = True
+        return {"status": 200}
+
+
+@app.route("/flag_busy")
+def set_busy():
+    # Освободить место
+    global busy
+    with trade_lock:
+        busy = False
+        return {"status": 200}
+
+
+@app.route("/receive_json", methods=["POST"])
+def receive_json():
+    response = request.get_json(silent=True)
+    if not response:
+        return jsonify({"error": "Invalid or missing JSON"}), 400
+
+    data = response.get("data")
+    if data is None:
+        return jsonify({"error": "Invalid or missing JSON"}), 400
+
+    filename = response.get("filename")
+    if filename is None:
+        return jsonify({"error": "Invalid or missing JSON"}), 400
+
+    vds = response.get("vds")
+    if vds is None:
+        return jsonify({"error": "Invalid or missing JSON"}), 400
+
+    print(f'Пришло сообщение от {vds}')
+
+    with open(f'data/{vds}-{filename}.json', 'w', encoding='utf-8') as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+
+    # Освободить место
+    global busy
+    with trade_lock:
+        busy = False
+
+    return jsonify({"received": "ok"}), 200
